@@ -1,0 +1,14 @@
+<launch>
+    <param name="camera_tag" type = "int" value="1"/>
+
+    <node pkg="transfer_img" type="get_frontimg" name="get_frontimg" />
+
+    <node pkg="transfer_img" type="get_backimg" name="get_backimg" />
+
+    <node pkg="transfer_img" type="transfer_img" name="transfer_camera" args="camera"/>
+
+    <node pkg="transfer_img" type="transfer_img" name="transfer_lidar" args="lidar"/>
+
+    <node name="get_lidarimg" pkg="transfer_img" type="get_lidarimg.py"  />
+
+</launch>

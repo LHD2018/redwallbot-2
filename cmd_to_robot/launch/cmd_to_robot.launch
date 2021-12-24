@@ -1,0 +1,22 @@
+<launch>
+    <!--start cmd_to_robot_main node-->
+  <node pkg="cmd_to_robot" type="cmd_to_robot_main" name="cmd_to_robot_main" output="screen"  />
+
+    <!--start 8 motor node-->
+  <node pkg="cmd_to_robot" type="cmd_to_robot_motor" name="cmd_to_robot_lfd" output="screen" args="lfd"/>
+
+  <node pkg="cmd_to_robot" type="cmd_to_robot_motor" name="cmd_to_robot_lfr" output="screen" args="lfr"/>
+
+  <node pkg="cmd_to_robot" type="cmd_to_robot_motor" name="cmd_to_robot_lbd" output="screen" args="lbd"/>
+
+  <node pkg="cmd_to_robot" type="cmd_to_robot_motor" name="cmd_to_robot_lbr" output="screen" args="lbr"/>
+
+  <node pkg="cmd_to_robot" type="cmd_to_robot_motor" name="cmd_to_robot_rbd" output="screen" args="rbd"/>
+
+  <node pkg="cmd_to_robot" type="cmd_to_robot_motor" name="cmd_to_robot_rbr" output="screen" args="rbr"/>
+
+  <node pkg="cmd_to_robot" type="cmd_to_robot_motor" name="cmd_to_robot_rfd" output="screen" args="rfd"/>
+
+  <node pkg="cmd_to_robot" type="cmd_to_robot_motor" name="cmd_to_robot_rfr" output="screen" args="rfr"/>
+
+</launch>

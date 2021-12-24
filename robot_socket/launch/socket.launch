@@ -1,0 +1,7 @@
+<launch>
+
+    <node pkg="robot_socket" type="control_socket" name="control_socket" />
+
+    <node pkg="robot_socket" type="gps_socket" name="gps_socket" />
+    
+</launch>

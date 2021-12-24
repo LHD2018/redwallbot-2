@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/opt/ros/melodic/include/**",
+                "/usr/include/**",
+                "${workspaceFolder}/cmd_to_robot/include",
+                "/home/redwall/catkin_ws/devel/include",
+                "${workspaceFolder}/robot_socket/include",
+                "${workspaceFolder}/transfer_img/include"
+            ],
+            "name": "ROS"
+        }
+    ],
+    "version": 4
+}
