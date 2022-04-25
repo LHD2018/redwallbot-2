@@ -1,0 +1,42 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/home/ys/catkin_ws/devel/include/**",
+        "/opt/ros/kinetic/include/**",
+        "/home/ys/catkin_ws/src/cmd_to_plc/include/**",
+        "/home/ys/catkin_ws/src/cmd_to_robot/include/**",
+        "/home/ys/catkin_ws/src/cmd_vel_to_stm/include/**",
+        "/home/ys/catkin_ws/src/dcz_navigation/include/**",
+        "/home/ys/catkin_ws/src/explore/include/**",
+        "/home/ys/catkin_ws/src/gps_sensor/include/**",
+        "/home/ys/catkin_ws/src/imu_pub/include/**",
+        "/home/ys/catkin_ws/src/imu_pub_fd/include/**",
+        "/home/ys/catkin_ws/src/karto_slam/include/**",
+        "/home/ys/catkin_ws/src/LeGO-LOAM/LeGO-LOAM/include/**",
+        "/home/ys/catkin_ws/src/LMS1xx/include/**",
+        "/home/ys/catkin_ws/src/loam_velodyne/include/**",
+        "/home/ys/catkin_ws/src/multirobot_map_merge/include/**",
+        "/home/ys/catkin_ws/src/neo_common-master/include/**",
+        "/home/ys/catkin_ws/src/neo_kinematics_omnidrive/include/**",
+        "/home/ys/catkin_ws/src/neo_local_planner/include/**",
+        "/home/ys/catkin_ws/src/odom_udp/include/**",
+        "/home/ys/catkin_ws/src/pointcloud_to_laserscan/include/**",
+        "/home/ys/catkin_ws/src/robot_teleop/include/**",
+        "/home/ys/catkin_ws/src/scan_udp/include/**",
+        "/home/ys/catkin_ws/src/simple_navigation_goal/include/**",
+        "/home/ys/catkin_ws/src/velodyne/velodyne_driver/include/**",
+        "/home/ys/catkin_ws/src/velodyne/velodyne_laserscan/include/**",
+        "/home/ys/catkin_ws/src/velodyne/velodyne_pcl/include/**",
+        "/home/ys/catkin_ws/src/velodyne/velodyne_pointcloud/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS"
+    }
+  ],
+  "version": 4
+}

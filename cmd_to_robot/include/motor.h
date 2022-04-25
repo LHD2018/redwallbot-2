@@ -6,6 +6,12 @@
 #include <cmath>
 #include <vector>
 
+// 轮子回零偏差
+#define RIGHT_FRONT_BIAS 2100           //右前轮
+#define LEFT_FRONT_BIAS 0            // 左前轮
+#define LEFT_BACK_BIAS 0              // 左后轮
+#define RIGHT_BACK_BIAS -1000         //右后轮
+
 
 // 轮子类型
 #define DRIVE_MOTOR 0       // 驱动轮
@@ -26,6 +32,11 @@ struct  Coder
 {
     int vx;             // 主反馈速度
     int px;             // 主反馈位置
+
+    int vy;             // 副编码器速度
+    int py;             // 副编码器位置
+
+    int home_px;    // 零点时的px
 };
 
 
@@ -45,6 +56,8 @@ public:
 
     // 初始化电机
     bool initMotor();
+    // 回零点
+    bool homing(int bias=0);
     // 写入速度或角度
     bool writeVorP(float vp, float p=0);
     // 读取编码器
@@ -54,6 +67,13 @@ public:
 
     int getVX();
     int getPX();
+
+    int getVY();
+    int getPY();
+
+    int getHomePX();
+
+    int getMotorType();
     
     ~Motor();
 

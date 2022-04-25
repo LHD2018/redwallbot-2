@@ -12,11 +12,37 @@ bool Motor::initMotor(){
 
     string init_str;
     if(m_motor_type == DRIVE_MOTOR){
-        init_str = "um=2;mo=1;rm=0;vx=0;px=0;vy=0;py=0;ac=120000;dc=120000;";
+        init_str = "ya[4]=2;um=2;mo=1;rm=0;vx=0;px=0;vy=0;py=0;ac=120000;dc=120000;";
     }else{
-        init_str = "um=2;mo=1;rm=0;vx=0;px=0;vy=0;py=0;ac=150000;dc=150000;";
+        
+    init_str = "ya[4]=2;um=2;mo=1;rm=0;vx=0;px=0;vy=0;py=0;ac=150000;dc=150000;";        
     }
-    return m_serial.writeSerial(init_str.data(), init_str.size());
+        return m_serial.writeSerial(init_str.data(), init_str.size());
+
+}
+
+bool Motor::homing(int bias){
+    int last_py = 0;
+
+    string homing_str = "jv=10000;px;py;bg;hy[1]=1;hy[2]=0;hy[3]=3;hy[5]=0;hy[8];";
+
+    while (m_coder.home_px > -10 && m_coder.home_px < 10){
+        if(m_serial.writeSerial(homing_str.data(), homing_str.size()) == false) return false;
+        usleep(100000);
+        readCoder();
+        if(m_coder.home_px == 0 && m_coder.py - last_py > 10) {
+            m_coder.home_px = m_coder.px;
+            break;
+        }
+        last_py = m_coder.py;
+    }
+    m_coder.home_px += bias;
+    homing_str = "sf=80;pa=" + to_string(m_coder.home_px);
+    homing_str += "bg;";
+
+    return m_serial.writeSerial(homing_str.data(), homing_str.size());
+    
+     
 }
 
 bool Motor::writeVorP(float vp, float p){
@@ -52,11 +78,13 @@ bool Motor::writeVorP(float vp, float p){
     }else{
         double pa = MAIN_ENCODER_NUM * vp / (2 * M_PI);
         m_pv = (int)(pa * REDUCER_RATIO);
-        v_str = "sf=80;sp=20000;pa=" + to_string(m_pv);
+        m_pv += m_coder.home_px;
+        v_str = "sf=80;sp=10000;pa=" + to_string(m_pv);
        
     }
     
-    v_str += ";vx;px;bg;";              // 这里读取主反馈数据，如想读取辅助编码器，则使用vy;py;，并修改readCoder函数
+    v_str += ";vx;px;vy;py;bg;";              // 这里读取主反馈数据，如想读取辅助编码器，则使用vy;py;，并修改readCoder函数
+    // v_str += ";vx;px;vy;py;bg;hy[1]=1;hy[2]=0;hy[3]=3;hy[5]=0;hy[8];";   // 用于回零测试          
     
     //cout << v_str << endl;
     return m_serial.writeSerial(v_str.data(), v_str.size());
@@ -67,6 +95,8 @@ bool Motor::readCoder(){
     char recv_buff[512] = {0};
     
     if(!m_serial.readSerial(recv_buff, sizeof(recv_buff), read_len)) return false;
+
+     //cout << recv_buff << endl;
     
     vector<string> read_vs;
     char tmp_buff[16] = {0};
@@ -87,9 +117,15 @@ bool Motor::readCoder(){
             m_coder.vx = atoi((*(++it)).c_str());
         }else if((*it) == "px"){
             m_coder.px = atoi((*(++it)).c_str());
+        }else if((*it) == "vy"){
+            m_coder.vy = atoi((*(++it)).c_str());
+        }else if((*it) == "py"){
+            m_coder.py = atoi((*(++it)).c_str());
+        }else if((*it) == "hy[8]" && m_coder.home_px >-10 && m_coder.home_px < 10){
+            m_coder.home_px = atoi((*(++it)).c_str());
         }
     }
-    // cout << "vx:" << m_coder.vx << "\tpx:" << m_coder.px  << endl;
+    //cout << "vx:" << m_coder.vx << "\tpx:" << m_coder.px  << endl;
     return true;
 
 }
@@ -111,6 +147,19 @@ int Motor::getVX(){
 
 int Motor::getPX(){
     return m_coder.px;
+}
+
+ int Motor::getVY(){
+     return m_coder.vy;
+ }
+int Motor::getPY(){
+    return m_coder.py;
+}
+int Motor::getHomePX(){
+    return m_coder.home_px;
+}
+int Motor::getMotorType(){
+    return m_motor_type;
 }
 
 Motor::~Motor(){

@@ -76,7 +76,7 @@ bool MySerial::readSerial(char *buff, const size_t n, int &read_len){
         perror("ERR:read serial faild");
         return false;
     }
-    tcflush(m_serial_fd, TCIFLUSH);
+   tcflush(m_serial_fd, TCIFLUSH);
     return true;
 
 }

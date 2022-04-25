@@ -1,0 +1,7 @@
+<launch>
+
+    <node pkg="gps_sensor" type="gps_pub" name="gps_pub" />
+
+    <node pkg="gps_sensor" type="gps_path" name="gps_path" />
+    
+</launch>

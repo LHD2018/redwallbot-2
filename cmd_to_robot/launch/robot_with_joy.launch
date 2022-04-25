@@ -9,6 +9,11 @@
 
     <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
 
-    <node pkg="rosbag" type="record" name="bag_record" args="/velodyne_points /zedm/zed_node/left/image_rect_color /zedm/zed_node/right/image_rect_color /camera/imu -o /home/redwall/bags/test.bag" /-->l
+    <include file="$(find robot_socket)/launch/socket.launch" />
+
+    <include file="$(find transfer_img)/launch/transfer_img.launch" />
+
+
+    <node pkg="rosbag" type="record" name="bag_record" args="/velodyne_points /zedm/zed_node/left/image_rect_color /zedm/zed_node/right/image_rect_color /camera/imu -o /media/redwall/codeland/bags/indoor.bag" /-->
 
 </launch>

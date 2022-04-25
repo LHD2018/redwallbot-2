@@ -12,6 +12,6 @@
 
     <include file="$(find transfer_img)/launch/transfer_img.launch" />
 
-    <node pkg="rosbag" type="record" name="bag_record" args="/velodyne_points /zedm/zed_node/left/image_rect_color /zedm/zed_node/right/image_rect_color /camera/imu -o /home/redwall/bags/test.bag" />l
+    <node pkg="rosbag" type="record" name="bag_record" args="/velodyne_points /zedm/zed_node/left/image_rect_color /zedm/zed_node/right/image_rect_color /camera/imu /robot_gps /gps_path -o /media/redwall/codeland/bags/indoor.bag" />
 
 </launch>

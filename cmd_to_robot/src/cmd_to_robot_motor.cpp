@@ -61,11 +61,11 @@ void callback(const cmd_to_robot::whellparams::ConstPtr& msg){
 
     gettimeofday(&now_time, NULL);
 
-    motor->readCoder();
+    //motor->readCoder();
     
-   usleep(100000);
+   //usleep(100000);
 
-    out_file << now_time.tv_sec << "\t" << motor->getVX() << "\t" << motor->getPX() << endl;
+    //out_file << now_time.tv_sec << "\t" << motor->getVX() << "\t" << motor->getPX() << endl;
  
 
 }
@@ -75,34 +75,40 @@ int main(int argc, char **argv){
 
     string  arg = argv[1];
 
+    int homing_bias = 0;
+
     if(arg == "lfd"){
         motor = new Motor("/dev/usb_lfd", DRIVE_MOTOR );
-        out_file.open("/home/redwall/Documents/lfd.txt");
+       //out_file.open("/home/redwall/Documents/lfd.txt");
         msg_flag = 1;
     }else if(arg == "lfr"){
         motor = new Motor("/dev/usb_lfr", ROTATE_MOTOR );
         msg_flag = 2;
+        homing_bias = LEFT_FRONT_BIAS;
     }else if(arg == "lbd"){
         motor = new Motor("/dev/usb_lbd", DRIVE_MOTOR );
-        out_file.open("/home/redwall/Documents/lbd.txt");
+        //out_file.open("/home/redwall/Documents/lbd.txt");
         msg_flag = 3;
     }else if(arg == "lbr"){
         motor = new Motor("/dev/usb_lbr", ROTATE_MOTOR );
         msg_flag = 4;
+        homing_bias = LEFT_BACK_BIAS;
     }else if(arg == "rbd"){
         motor = new Motor("/dev/usb_rbd", DRIVE_MOTOR );
-        out_file.open("/home/redwall/Documents/rbd.txt");
+        //out_file.open("/home/redwall/Documents/rbd.txt");
         msg_flag = 5;
     }else if(arg == "rbr"){
         motor = new Motor("/dev/usb_rbr", ROTATE_MOTOR );
         msg_flag = 6;
+        homing_bias = RIGHT_BACK_BIAS;
     }else if(arg == "rfd"){
         motor = new Motor("/dev/usb_rfd", DRIVE_MOTOR );
-        out_file.open("/home/redwall/Documents/rfd.txt");
+        //out_file.open("/home/redwall/Documents/rfd.txt");
         msg_flag = 7;
     }else if(arg == "rfr"){
         motor = new Motor("/dev/usb_rfr", ROTATE_MOTOR );
         msg_flag = 8;
+        homing_bias = RIGHT_FRONT_BIAS;
     }else{
         return -1;
     }
@@ -111,6 +117,13 @@ int main(int argc, char **argv){
         ROS_ERROR("inti motor faild!");
         return -1;
     }
+
+    if(motor->getMotorType() == ROTATE_MOTOR){
+        if(!motor->homing(homing_bias)){
+            ROS_ERROR("homing faild!");
+            return -1;
+        }
+    }
    
     //ros
     ros::init(argc, argv, "cmd_to_robot_motor");
@@ -118,7 +131,7 @@ int main(int argc, char **argv){
     ros::Subscriber sub = nh.subscribe("whell_params",  1,  callback);
     ros::spin();
 
-    out_file.close();
+    //out_file.close();
 
     return 0;
 }
